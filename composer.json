@@ -1,6 +1,6 @@
 {
     "name"        : "cent/yii2-social",
-    "version"     : "",
+    "version"     : "v0.0.1",
     "type"        : "yii2-bundle",
     "description" : "Cent yii2 social hub",
     "authors"     : [
