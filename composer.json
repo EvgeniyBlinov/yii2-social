@@ -1,0 +1,19 @@
+{
+    "name"        : "cent/yii2-social",
+    "version"     : "",
+    "type"        : "yii2-bundle",
+    "description" : "Cent yii2 social hub",
+    "authors"     : [
+        {
+            "name": "Evgeniy Blinov",
+            "email": "evgeniy_blinov@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "yiisoft/yii2": ">=2.0.4"
+    },
+    "autoload": {
+        "psr-4": { "cent\\yii2social\\": "" }
+    }
+}
