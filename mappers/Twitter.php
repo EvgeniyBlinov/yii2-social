@@ -3,6 +3,7 @@ namespace cent\yii2social\mappers;
 
 use Yii;
 use yii\base\Component;
+use yii\log\Logger;
 
 /**
  * Twitter
@@ -56,8 +57,12 @@ class Twitter
                                     implode(' OR ', $hashtags),
                                     http_build_query($options)
                                 ]));
+        $query                = "search/tweets.json?q=${hashtagsUrl}";
+        if (defined('YII_DEBUG') && constant('YII_DEBUG')) {
+            Yii::getLogger()->log("[Twitter API query] $query", Logger::LEVEL_WARNING);
+        }
         $twitter              = $this->getClient();
-        $twresult             = json_decode($twitter->get("search/tweets.json?q=${hashtagsUrl}"), true);
+        $twresult             = json_decode($twitter->get($query), true);
         return $this->getData($twresult['statuses']);
     }
 
