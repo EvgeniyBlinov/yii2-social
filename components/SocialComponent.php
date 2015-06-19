@@ -92,6 +92,35 @@ class SocialComponent extends Component
         if (!empty($this->options['sort'])) {
             $this->sortData('created_at', 'ASC', true);
         }
+
+        return $this->getData();
+    }
+
+    /**
+     * Get mixed data from social networks
+     *
+     * @param array $options
+     * @return array
+     * @author Evgeniy Blinov <evgeniy_blinov@mail.ru>
+     **/
+    public function getMixedData(array $options)
+    {
+        foreach ($options as $resourceName => $callback) {
+            if (in_array($resourceName, array_keys($this->_mappedResources))) {
+                switch (gettype($callback)) {
+                    case 'array':
+                        foreach ($callback as $methodName => $args) {
+                            $this->setData(
+                                (array) call_user_func_array([$this->_mappedResources[$resourceName], $methodName], $args)
+                            );
+                        }
+                        break;
+                }
+            } else {
+                throw new \Exception("Wrong social network name '$resourceName' in options!");
+            }
+        }
+
         return $this->getData();
     }
 

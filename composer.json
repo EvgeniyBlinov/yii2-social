@@ -10,8 +10,10 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
-        "yiisoft/yii2": ">=2.0.4"
+        "php"                    : ">=5.4",
+        "yiisoft/yii2"           : ">=2.0.4",
+        "richweber/yii2-twitter" : "1.0.1"
+
     },
     "autoload": {
         "psr-4": { "cent\\yii2social\\": "" }

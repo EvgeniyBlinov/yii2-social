@@ -37,7 +37,7 @@ class Twitter
      **/
     public function getClient()
     {
-        $twitter              = Yii::$app->twitter->getTwitter();
+        $twitter              = Yii::$app->twitter->init();
         $twitter->decode_json = false;
         return $twitter;
     }
