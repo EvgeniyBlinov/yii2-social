@@ -9,7 +9,7 @@ yii2-social
 
 ```json
     "require": {
-        "cent/yii2-social"             : "v0.0.2"
+        "cent/yii2-social"             : "v0.0.3"
     },
     "repositories": [
         {
