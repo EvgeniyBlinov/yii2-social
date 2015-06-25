@@ -11,19 +11,16 @@ use Facebook\FacebookRequest;
 use Facebook\GraphObject;
 use Facebook\FacebookRequestException;
 
+use cent\yii2social\mappers\AbstractMapper;
+
 /**
  * Facebook
  *
  * @package yii2-social
  * @author Evgeniy Blinov <evgeniy_blinov@mail.ru>
 **/
-class Facebook
+class Facebook extends AbstractMapper
 {
-    /**
-     * @var string
-     **/
-    public $model;
-
     /**
      * Get social name
      *
@@ -46,68 +43,38 @@ class Facebook
         return Yii::$app->facebook->init();
     }
 
-    public function getFeed(array $options = [])
-    {
-        $data = [];
-        if ($session = $this->getClient()) {
-            //$session = new FacebookSession(FacebookSession::newAppSession()->getAccessToken());
-            $session = new FacebookSession(APP_SOCIAL_FB_OATOKEN);
-            //$session = FacebookSession::newAppSession();
-            //echo "<pre>";var_dump(
-
-                //$session->getAccessToken()
-                
-                ////,
-                ////(new AccessToken($session->getAccessToken()))
-                //->extend()
-            //);die;
-            try {
-                $response = (new FacebookRequest(
-                    //$session, 'GET', '/me/posts'
-                    $session, 'GET', '/me/accounts?fields=name,access_token,perms'
-                    //$session, 'GET', '/me'
-                    //, array(
-                            //'link' => 'www.example.com',
-                            //'message' => 'User provided message'
-                        //)
-                    ))->execute()->getGraphObject()->asArray();
-                echo "<pre>";var_dump(
-                $response
-                );die;
-                //echo "Posted with id: " . $response->getProperty('id');
-            } catch(\Exception $e) {
-                echo "Exception occured, code: " . $e->getCode();
-                echo " with message: " . $e->getMessage();
-            }
-        }
-        return $this->getData($data);
-    }
-
     /**
-     * Get data
+     * Get feed
      *
-     * @param array $rawData
+     * @param string $url
+     * @param array $options
      * @return array
      * @author Evgeniy Blinov <evgeniy_blinov@mail.ru>
      **/
-    public function getData(array $rawData)
+    public function get($url, array $options = [])
     {
-        $socialName   = $this->getSocialName();
-        $model        = new $this->model;
-        $mappedFields = $model->getMappedFields();
-        $mappedFields = !empty($mappedFields[$socialName]) ? $mappedFields[$socialName] : [];
-        return array_map(
-            function ($element) use ($socialName, $mappedFields) {
-                $data                    = [];
-                $element['_social_name'] = $socialName;
-                foreach ($mappedFields as $socialField => $modelField) {
-                    $socialData        = $element[$socialField];
-                    $data[$modelField] = is_scalar($socialData) ? (string) $socialData : json_encode($socialData);
+        $data = [];
+        if ($session = $this->getClient()) {
+            try {
+                $response = (new FacebookRequest(
+                    $session,
+                    'GET',
+                    $url,
+                    !empty($options['urlOptions']) ? $options['urlOptions'] : []
+                ))->execute()->getGraphObject()->asArray();
+                if (!empty($options['preFormatter'])) {
+                    $formatter = $options['preFormatter'];
+                    if (is_callable($formatter)) {
+                        $response = call_user_func_array($formatter, $response);
+                    }
                 }
-                $data['_social_name'] = $element['_social_name'];
-                return $data;
-            },
-            $rawData
-        );
+                $data = $response['data'];
+            } catch(\Exception $e) {
+                //echo "Exception occured, code: " . $e->getCode();
+                //echo " with message: " . $e->getMessage();
+            }
+        }
+
+        return $this->getData($data);
     }
 }

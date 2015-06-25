@@ -47,7 +47,8 @@ class Facebook extends Component
         $oAuthClass = $this->oAuthClass;
         $oAuthClass::setDefaultApplication($this->appId, $this->appSecret);
         $this->_client = new $oAuthClass(
-            $this->oAToken
+            //$this->oAToken
+            $this->appId . '|' . $this->appSecret
         );
         return $this->_client;
     }
