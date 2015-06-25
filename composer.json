@@ -1,6 +1,6 @@
 {
     "name"        : "cent/yii2-social",
-    "version"     : "v0.0.1",
+    "version"     : "v0.0.2",
     "type"        : "yii2-bundle",
     "description" : "Cent yii2 social hub",
     "authors"     : [
@@ -12,8 +12,8 @@
     "require": {
         "php"                    : ">=5.4",
         "yiisoft/yii2"           : ">=2.0.4",
-        "richweber/yii2-twitter" : "1.0.1"
-
+        "richweber/yii2-twitter" : "1.0.1",
+        "facebook/php-sdk-v4"    :"4.0.23"
     },
     "autoload": {
         "psr-4": { "cent\\yii2social\\": "" }
