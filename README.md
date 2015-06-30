@@ -3,21 +3,14 @@
 # yii2-social
 yii2-social
 
-## Usage
+## Install
 
- Add to `composer.json`:
-
-```json
-    "require": {
-        "cent/yii2-social"             : "v0.0.3"
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url" : "https://github.com/EvgeniyBlinov/yii2-social"
-        }
-    ],
+```sh
+composer config repositories.yii2-social git https://github.com/EvgeniyBlinov/yii2-social
+composer require "cent/yii2-social:v0.0.3"
 ```
+
+## Usage
 
 Main config:
 
